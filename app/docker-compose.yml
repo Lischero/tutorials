@@ -1,0 +1,29 @@
+version: '2'
+services:
+    service1:
+        image: httpd:2.4-alpine
+        container_name: service1
+        ports: 
+            - "8080:80"
+
+        volumes:
+            - ./service1/:/usr/local/apache2/htdocs/
+
+
+    service2:
+        image: httpd:2.4-alpine
+        container_name: service2
+        ports: 
+            - "8081:80"
+        volumes:
+            - ./service2/:/usr/local/apache2/htdocs/
+
+
+    nginx:
+        build: nginx
+        ports: 
+            - "80:80"
+        depends_on:
+            - service1
+            - service2
+        restart: always
